@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net7.0-windows10.0.22621.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Authors>paoldev</Authors>
+    <Copyright>(C) 2023</Copyright>
+    <PackageProjectUrl>https://github.com/paoldev/PdfMerger</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/paoldev/PdfMerger.git</RepositoryUrl>
+    <Description>Merge two or more PDF files into a single PDF file.</Description>
+    <Title>Pdf Merger</Title>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>pdf;merge</PackageTags>
+    <Product>Pdf Merger</Product>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Reflection.AssemblyMetadataAttribute">
+      <_Parameter1>CustomTitle</_Parameter1>
+      <_Parameter2>$(Title)</_Parameter2>
+    </AssemblyAttribute>
+    <AssemblyAttribute Include="System.Reflection.AssemblyMetadataAttribute">
+      <_Parameter1>ProjectUrl</_Parameter1>
+      <_Parameter2>$(PackageProjectUrl)</_Parameter2>
+    </AssemblyAttribute>
+  </ItemGroup>
+
+</Project>
