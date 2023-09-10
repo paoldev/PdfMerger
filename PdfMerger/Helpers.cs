@@ -24,40 +24,79 @@ namespace PdfMerger
         public static ImageCodecInfo? FindImageDecoder(string extension) => ImageCodecInfo.GetImageDecoders().Where(dec => dec.FilenameExtension?.ToLowerInvariant().Split(";", StringSplitOptions.RemoveEmptyEntries).Contains($"*{extension}") ?? false).FirstOrDefault();
 
         //Fit and center a rectangle into a bounding box, preserving its original aspect ratio.
-        //Note 1: sourceRect offset is ignored; only Width and Height are considered.
-        //Note 2: empty rects are ignored and the bounding box is returned.
-        //Note 3: unexpected results may be returned if rects have negative widths and/or heights.
+        //If the bounding box has negative width and/or height, the resulting rectangle will
+        //have the same negative dimension.
         public static Rectangle FitRectInBoundingBox(Rectangle sourceRect, Rectangle boundingBox)
         {
             Rectangle rectangle = boundingBox;
-            if ((sourceRect.Width != boundingBox.Width) || (sourceRect.Height != boundingBox.Height))
+            if ((Math.Abs(sourceRect.Width) != Math.Abs(boundingBox.Width)) || (Math.Abs(sourceRect.Height) != Math.Abs(boundingBox.Height)))
             {
-                if (((sourceRect.Width * sourceRect.Height) != 0) && ((boundingBox.Width * boundingBox.Height) != 0))
+                var fixedSourceRect = NormalizeRect(sourceRect);
+                var fixedBoundingBox = NormalizeRect(boundingBox);
+
+                int NewWidth;
+                int NewHeight;
+                if ((fixedBoundingBox.Width * fixedBoundingBox.Height) == 0)
                 {
-                    double imageAspectRatio = (double)sourceRect.Width / sourceRect.Height;
-                    double pageAspectRatio = (double)boundingBox.Width / boundingBox.Height;
-                    if (Math.Abs((imageAspectRatio / pageAspectRatio) - 1.0) > 0.001)
+                    //Empty bounding box
+                    NewWidth = 0;
+                    NewHeight = 0;
+                }
+                else if ((fixedSourceRect.Width * fixedSourceRect.Height) == 0)
+                {
+                    //Empty source rect
+                    NewWidth = (fixedSourceRect.Width == 0) ? 0 : fixedBoundingBox.Width;
+                    NewHeight = (fixedSourceRect.Height == 0) ? 0 : fixedBoundingBox.Height;
+                }
+                else
+                {
+                    //Valid rects
+                    NewWidth = fixedBoundingBox.Width;
+                    NewHeight = fixedBoundingBox.Height;
+                    double sourceAspectRatio = (double)fixedSourceRect.Width / fixedSourceRect.Height;
+                    double destAspectRatio = (double)fixedBoundingBox.Width / fixedBoundingBox.Height;
+                    if (Math.Abs((sourceAspectRatio / destAspectRatio) - 1.0) > 0.001)
                     {
-                        if (pageAspectRatio > imageAspectRatio)
+                        if (destAspectRatio > sourceAspectRatio)
                         {
-                            rectangle.Width = Math.Min((int)Math.Round(boundingBox.Height * imageAspectRatio), boundingBox.Width);
-                            rectangle.Height = boundingBox.Height;
-                            rectangle.X = (boundingBox.Width - rectangle.Width) / 2;
-                            rectangle.Y = 0;
+                            NewWidth = Math.Min((int)Math.Round(fixedBoundingBox.Height * sourceAspectRatio), fixedBoundingBox.Width);
                         }
                         else
                         {
-                            rectangle.Width = boundingBox.Width;
-                            rectangle.Height = Math.Min((int)Math.Round(boundingBox.Width / imageAspectRatio), boundingBox.Height);
-                            rectangle.X = 0;
-                            rectangle.Y = (boundingBox.Height - rectangle.Height) / 2;
+                            NewHeight = Math.Min((int)Math.Round(fixedBoundingBox.Width / sourceAspectRatio), fixedBoundingBox.Height);
                         }
-
-                        rectangle.Offset(boundingBox.X, boundingBox.Y);
                     }
+                }
+
+                rectangle.X = fixedBoundingBox.X + (fixedBoundingBox.Width - NewWidth) / 2;
+                rectangle.Y = fixedBoundingBox.Y + (fixedBoundingBox.Height - NewHeight) / 2;
+                rectangle.Width = NewWidth;
+                rectangle.Height = NewHeight;
+
+                if (boundingBox.Width < 0)
+                {
+                    rectangle.X += rectangle.Width;
+                    rectangle.Width = -rectangle.Width;
+                }
+                if (boundingBox.Height < 0)
+                {
+                    rectangle.Y += rectangle.Height;
+                    rectangle.Height = -rectangle.Height;
                 }
             }
             return rectangle;
+        }
+
+        //For rectangles with negative width and/or heigth, return a new rectangle with positive dimensions and the offset updated as well.
+        private static Rectangle NormalizeRect(Rectangle rectangle)
+        {
+            return new()
+            {
+                X = rectangle.X + Math.Min(0, rectangle.Width),
+                Y = rectangle.Y + Math.Min(0, rectangle.Height),
+                Width = Math.Abs(rectangle.Width),
+                Height = Math.Abs(rectangle.Height)
+            };
         }
 
         //Image constructor used to detach internal referenced Stream, for images created through Image.FromStream(InStream).
