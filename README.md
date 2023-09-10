@@ -10,7 +10,7 @@ The resulting file is generated through rasterization, so its size is, in genera
 Additional features:  
 * Load images in common formats
 * Save one pdf or one image per page: the output file naming convention is `filename_pag_{number}.ext` (i.e. `singlepage_pag_1.pdf`, `singlepage_pag_2.pdf`, etc.)
-* Save files as OpenXPS files (*.oxps) or XPS files (*.xps)
+* Save files as OpenXPS files (\*.oxps) or XPS files (\*.xps)
 * Merge specific page ranges; pages can also be duplicated and merged in reverse order.  
 For example, specifying `2-5, 7, 20-15, 1, 3` generates the output pages in the following order: `2,3,4,5,7,20,19,18,17,16,15,1,3`.
   
