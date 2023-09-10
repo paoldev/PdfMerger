@@ -65,7 +65,7 @@ namespace PdfMerger
 
                 EnableAllControlsExceptCancel(false);
                 progressBarPages.Maximum = 100;
-                int currFile = 0; ;
+                int currFile = 0;
                 int OldPdfCount = pdfFiles.Count;
                 cts = new CancellationTokenSource();
                 foreach (var f in fileNames)
@@ -109,14 +109,10 @@ namespace PdfMerger
                 }
 
                 //Reset the UI after previous tasks UI operations have been completed.
-                IProgress<int> clearUI = new Progress<int>((int progress) =>
+                await ClearUIAync(() =>
                 {
                     labelPages.Text = string.Empty;
                     progressBarPages.Value = 0;
-                });
-                await Task.Run(() =>
-                {
-                    clearUI?.Report(0);
                 });
 
                 cts = null;
@@ -237,14 +233,10 @@ namespace PdfMerger
             }
 
             //Reset the UI after previous tasks UI operations have been completed.
-            IProgress<int> clearUI = new Progress<int>((int progress) =>
+            await ClearUIAync(() =>
             {
                 labelPages.Text = string.Empty;
                 progressBarPages.Value = 0;
-            });
-            await Task.Run(() =>
-            {
-                clearUI?.Report(0);
             });
 
             cts = null;
@@ -491,7 +483,7 @@ namespace PdfMerger
             }
         }
 
-        int[] GetCustomFilterPageList()
+        private int[] GetCustomFilterPageList()
         {
             int minPage = 1;
             int maxPage = 0;
@@ -619,7 +611,7 @@ namespace PdfMerger
             return pageIndices.ToArray();
         }
 
-        void EnableAllControlsExceptCancel(bool bEnable)
+        private void EnableAllControlsExceptCancel(bool bEnable)
         {
             foreach (var c in Controls)
             {
@@ -631,6 +623,18 @@ namespace PdfMerger
                     }
                 }
             }
+        }
+
+        private Task ClearUIAync(Action action)
+        {
+            IProgress<int> clearUI = new Progress<int>((int progress) =>
+            {
+                action();
+            });
+            return Task.Run(() =>
+            {
+                clearUI?.Report(0);
+            });
         }
 
         private void OnbuttonCancel_Click(object sender, EventArgs e)
