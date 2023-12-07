@@ -4,7 +4,7 @@ namespace PdfMerger
 {
     public partial class Form1 : Form
     {
-        private readonly List<PdfFile> pdfFiles = new();
+        private readonly List<PdfFile> pdfFiles = [];
         private CancellationTokenSource? cts = null;
 
         public Form1()
@@ -391,8 +391,8 @@ namespace PdfMerger
         private void UpdatePreview()
         {
             //Get all pages sorted by listViewPdf
-            Dictionary<Image, PdfFile> pdfForGroups = new();
-            List<Image> allPdfPages = new();
+            Dictionary<Image, PdfFile> pdfForGroups = [];
+            List<Image> allPdfPages = [];
             foreach (ListViewItem item in listViewPdf.Items)
             {
                 var pdf = item.GetPdf();
@@ -406,7 +406,7 @@ namespace PdfMerger
 
             //Extract only pages selected through the current filter
             var pageIndices = GetCustomFilterPageList();
-            List<Image> filteredPages = new();
+            List<Image> filteredPages = [];
             foreach (var p in pageIndices)
             {
                 filteredPages.Add(allPdfPages[p - 1]);
@@ -498,10 +498,10 @@ namespace PdfMerger
             if (maxPage < minPage)
             {
                 //Empty array
-                return Array.Empty<int>();
+                return [];
             }
 
-            List<int> pageIndices = new();
+            List<int> pageIndices = [];
 
             if ((comboBoxPageFilter.SelectedIndex == 0) || ((comboBoxPageFilter.SelectedIndex == 3) && string.IsNullOrWhiteSpace(textBoxFilter.Text)))
             {
@@ -521,7 +521,7 @@ namespace PdfMerger
             else if (comboBoxPageFilter.SelectedIndex != 3)
             {
                 //Empty array
-                return Array.Empty<int>();
+                return [];
             }
             else
             {
@@ -535,7 +535,7 @@ namespace PdfMerger
                         if (string.IsNullOrWhiteSpace(r))
                         {
                             //Empty array
-                            return Array.Empty<int>();
+                            return [];
                         }
 
                         if (!r.Contains(intervalSeparator))
@@ -543,13 +543,13 @@ namespace PdfMerger
                             if (!int.TryParse(r, out int first))
                             {
                                 //Empty array
-                                return Array.Empty<int>();
+                                return [];
                             }
 
                             if ((first < minPage) || (first > maxPage))
                             {
                                 //Empty array
-                                return Array.Empty<int>();
+                                return [];
                             }
                             pageIndices.Add(first);
                         }
@@ -561,13 +561,13 @@ namespace PdfMerger
                                 if (!int.TryParse(rr[0], out int first))
                                 {
                                     //Empty array
-                                    return Array.Empty<int>();
+                                    return [];
                                 }
 
                                 if (!int.TryParse(rr[1], out int second))
                                 {
                                     //Empty array
-                                    return Array.Empty<int>();
+                                    return [];
                                 }
 
                                 if (first <= second)
@@ -575,7 +575,7 @@ namespace PdfMerger
                                     if ((first < minPage) || (second > maxPage))
                                     {
                                         //Empty array
-                                        return Array.Empty<int>();
+                                        return [];
                                     }
 
                                     pageIndices.AddRange(Enumerable.Range(first, second - first + 1).ToList());
@@ -585,7 +585,7 @@ namespace PdfMerger
                                     if ((second < minPage) || (first > maxPage))
                                     {
                                         //Empty array
-                                        return Array.Empty<int>();
+                                        return [];
                                     }
 
                                     pageIndices.AddRange(Enumerable.Range(second, first - second + 1).Reverse().ToList());
@@ -594,7 +594,7 @@ namespace PdfMerger
                             else
                             {
                                 //Empty array
-                                return Array.Empty<int>();
+                                return [];
                             }
                         }
 
@@ -608,7 +608,7 @@ namespace PdfMerger
                 pageIndices.Reverse();
             }
 
-            return pageIndices.ToArray();
+            return [.. pageIndices];
         }
 
         private void EnableAllControlsExceptCancel(bool bEnable)
@@ -625,7 +625,7 @@ namespace PdfMerger
             }
         }
 
-        private Task ClearUIAync(Action action)
+        private static Task ClearUIAync(Action action)
         {
             IProgress<int> clearUI = new Progress<int>((int progress) =>
             {

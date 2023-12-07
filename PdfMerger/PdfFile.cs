@@ -130,6 +130,6 @@ namespace PdfMerger
         }
 
         private readonly string _fileName;
-        private readonly List<Image> _pages = new();
+        private readonly List<Image> _pages = [];
     }
 }
