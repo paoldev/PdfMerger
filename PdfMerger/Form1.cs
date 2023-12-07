@@ -52,7 +52,7 @@ namespace PdfMerger
             if (saveFileDialog1.ShowDialog(this) == DialogResult.OK)
             {
                 var onePdfPerPage = saveFileDialog1.FilterIndex == 2;
-                var sourcePages = listViewPreview.Items.Cast<ListViewItem>().Select(item => (Image)item.Tag);
+                var sourcePages = listViewPreview.Items.Cast<ListViewItem>().Select(item => (Image)item.Tag!);
                 await MergePdfAsync(sourcePages, saveFileDialog1.FileName, onePdfPerPage);
             }
         }

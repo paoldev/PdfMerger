@@ -7,7 +7,7 @@ namespace PdfMerger
         //ListViewItem extensions to get and set Pdf files
         public static PdfFile GetPdf(this ListViewItem item)
         {
-            return (PdfFile)item.Tag;
+            return (PdfFile)item.Tag!;
         }
 
         public static void SetPdf(this ListViewItem item, PdfFile pdf)
