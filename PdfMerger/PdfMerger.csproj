@@ -7,7 +7,7 @@
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
     <Authors>paoldev</Authors>
-    <Copyright>(C) 2023</Copyright>
+    <Copyright>(C) 2023-2025</Copyright>
     <PackageProjectUrl>https://github.com/paoldev/PdfMerger</PackageProjectUrl>
     <RepositoryUrl>https://github.com/paoldev/PdfMerger.git</RepositoryUrl>
     <Description>Merge two or more PDF files into a single PDF file.</Description>
