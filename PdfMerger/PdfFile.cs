@@ -7,7 +7,7 @@ namespace PdfMerger
     internal class PdfFile
     {
         public string FileName => _fileName;
-        public IReadOnlyList<Image> Pages => _pages;
+        public IEnumerable<Image> Pages => _pages.AsEnumerable();
         public static async Task<PdfFile> LoadFromFile(string fileName, IProgress<int>? progress = null, CancellationToken ct = default)
         {
             progress?.Report(0);
@@ -53,7 +53,7 @@ namespace PdfMerger
             return pdfFile;
         }
 
-        public static async Task<PdfFile> CreateFileAsync(string fileName, IReadOnlyList<Image> pages, IProgress<int>? progress = null, CancellationToken ct = default)
+        public static async Task<PdfFile> CreateFileAsync(string fileName, IEnumerable<Image> pages, IProgress<int>? progress = null, CancellationToken ct = default)
         {
             return await Task.Run(() =>
             {
@@ -75,9 +75,9 @@ namespace PdfMerger
                         printDocument.DocumentName = Path.GetFileNameWithoutExtension(fileName);
                         printDocument.PrintPage += (object sender, PrintPageEventArgs e) =>
                         {
-                            if (currentPage < pages.Count)
+                            if (currentPage < pages.Count())
                             {
-                                var pageImage = pages[currentPage];
+                                var pageImage = pages.ElementAt(currentPage);
 
                                 //Fit the image into printed page bounds, according to their aspect ratios.
                                 Rectangle imageRect = new() { X = 0, Y = 0, Width = pageImage.Width, Height = pageImage.Height };
@@ -87,15 +87,15 @@ namespace PdfMerger
                                 currentPage++;
                             }
 
-                            e.HasMorePages = currentPage < pages.Count;
+                            e.HasMorePages = currentPage < pages.Count();
                             e.Cancel = ct.IsCancellationRequested;
                             progress?.Report(currentPage);
                         };
                         printDocument.QueryPageSettings += (object sender, QueryPageSettingsEventArgs e) =>
                         {
-                            if (currentPage < pages.Count)
+                            if (currentPage < pages.Count())
                             {
-                                var pageImage = pages[currentPage];
+                                var pageImage = pages.ElementAt(currentPage);
                                 //Preserve original page orientation
                                 e.PageSettings.Landscape = (pageImage.Width > pageImage.Height);
                             }

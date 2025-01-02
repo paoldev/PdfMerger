@@ -14,7 +14,7 @@ Additional features:
 * Merge specific page ranges; pages can also be duplicated and merged in reverse order.  
 For example, specifying `2-5, 7, 20-15, 1, 3` generates the output pages in the following order: `2,3,4,5,7,20,19,18,17,16,15,1,3`.
   
-This application requires the [.NET 8.0 Runtime](https://dotnet.microsoft.com/en-us/download/dotnet/8.0); it can be automatically downloaded and installed on the application's first run.  
+This application requires the [.NET 9.0 Runtime](https://dotnet.microsoft.com/en-us/download/dotnet/9.0); it can be automatically downloaded and installed on the application's first run.  
   
 # License
 

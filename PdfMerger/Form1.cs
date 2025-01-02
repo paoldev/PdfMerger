@@ -38,7 +38,7 @@ namespace PdfMerger
             openFileDialog1.FilterIndex = 1;
             if (openFileDialog1.ShowDialog(this) == DialogResult.OK)
             {
-                await LoadPdfAsync(openFileDialog1.FileNames);
+                await LoadPdfAsync(openFileDialog1.FileNames.AsEnumerable());
             }
         }
 
@@ -158,7 +158,7 @@ namespace PdfMerger
                         foreach (var page in pages)
                         {
                             var fullFileName = $"{filePattern}_pag_{pageCount}{extension}";
-                            await PdfFile.CreateFileAsync(fullFileName, new List<Image> { page });
+                            await PdfFile.CreateFileAsync(fullFileName, [page]);
 
                             progress?.Report(pageCount);
                             cts.Token.ThrowIfCancellationRequested();
@@ -174,7 +174,7 @@ namespace PdfMerger
                     else
                     {
                         // Save all pages into one file
-                        await PdfFile.CreateFileAsync(outputFile, pages, new Progress<int>(ReportProgress), cts.Token);
+                        await PdfFile.CreateFileAsync(outputFile, pages.AsEnumerable(), new Progress<int>(ReportProgress), cts.Token);
 
                         MessageBox.Show($"File {outputFile} successfully saved.", string.Empty, MessageBoxButtons.OK, MessageBoxIcon.Information);
                         if (checkBox1.Checked)
@@ -492,7 +492,7 @@ namespace PdfMerger
             {
                 var pdf = item.GetPdf();
                 var pages = pdf.Pages;
-                maxPage += pages.Count;
+                maxPage += pages.Count();
             }
 
             if (maxPage < minPage)
