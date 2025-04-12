@@ -1,3 +1,12 @@
+//
+// PdfMerger
+//
+// Copyright (c) 2023-2025 paoldev
+//
+// Licensed under the MIT license.
+// SPDX-License-Identifier: MIT
+//
+
 namespace PdfMerger
 {
     internal static class Program

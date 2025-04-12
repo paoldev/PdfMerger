@@ -1,4 +1,13 @@
-﻿using System.Drawing.Imaging;
+﻿//
+// PdfMerger
+//
+// Copyright (c) 2023-2025 paoldev
+//
+// Licensed under the MIT license.
+// SPDX-License-Identifier: MIT
+//
+
+using System.Drawing.Imaging;
 
 namespace PdfMerger
 {
