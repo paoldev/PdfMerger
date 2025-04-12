@@ -374,6 +374,7 @@ namespace PdfMerger
                 var listViewItem = new ListViewItem(Path.GetFileName(pdf.FileName));
                 listViewItem.SetPdf(pdf);
                 listViewItem.SubItems.Add(pdf.FileName);
+                listViewItem.SubItems.Add(pdf.Pages.Count().ToString());
                 listViewPdf.Items.Add(listViewItem);
             }
             if (listViewPdf.Items.Count == 0)
@@ -383,6 +384,7 @@ namespace PdfMerger
             else
             {
                 listViewPdf.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
+                listViewPdf.AutoResizeColumn(2, ColumnHeaderAutoResizeStyle.HeaderSize);    //Try to entirely show "PageCount" header title.
             }
 
             UpdatePreview();

@@ -30,6 +30,7 @@
         {
             ColumnHeader columnHeader1;
             ColumnHeader columnHeader2;
+            ColumnHeader columnHeader3;
             menuStrip1 = new MenuStrip();
             fileToolStripMenuItem = new ToolStripMenuItem();
             aboutToolStripMenuItem = new ToolStripMenuItem();
@@ -58,6 +59,7 @@
             comboBoxPageFilter = new ComboBox();
             columnHeader1 = new ColumnHeader();
             columnHeader2 = new ColumnHeader();
+            columnHeader3 = new ColumnHeader();
             menuStrip1.SuspendLayout();
             groupBoxPreview.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
@@ -75,6 +77,11 @@
             // columnHeader2
             // 
             columnHeader2.Text = "FullPath";
+            // 
+            // columnHeader3
+            // 
+            columnHeader3.Text = "PageCount";
+            columnHeader3.TextAlign = HorizontalAlignment.Center;
             // 
             // menuStrip1
             // 
@@ -135,7 +142,7 @@
             // 
             listViewPdf.AllowDrop = true;
             listViewPdf.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            listViewPdf.Columns.AddRange(new ColumnHeader[] { columnHeader1, columnHeader2 });
+            listViewPdf.Columns.AddRange(new ColumnHeader[] { columnHeader1, columnHeader2, columnHeader3 });
             listViewPdf.FullRowSelect = true;
             listViewPdf.Location = new Point(8, 64);
             listViewPdf.Margin = new Padding(2);
