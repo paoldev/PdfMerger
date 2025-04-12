@@ -133,6 +133,7 @@
             // 
             // listViewPdf
             // 
+            listViewPdf.AllowDrop = true;
             listViewPdf.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             listViewPdf.Columns.AddRange(new ColumnHeader[] { columnHeader1, columnHeader2 });
             listViewPdf.FullRowSelect = true;
@@ -143,6 +144,8 @@
             listViewPdf.TabIndex = 2;
             listViewPdf.UseCompatibleStateImageBehavior = false;
             listViewPdf.View = View.Details;
+            listViewPdf.DragDrop += OnlistViewPdf_DragDrop;
+            listViewPdf.DragEnter += OnlistViewPdf_DragEnter;
             // 
             // buttonSave
             // 

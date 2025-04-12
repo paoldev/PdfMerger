@@ -674,5 +674,28 @@ namespace PdfMerger
         {
             UpdatePreview();
         }
+
+        private void OnlistViewPdf_DragEnter(object sender, DragEventArgs e)
+        {
+            if ((e.Data != null) && e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                e.Effect = DragDropEffects.Copy;
+            }
+            else
+            {
+                e.Effect = DragDropEffects.None;
+            }
+        }
+
+        private async void OnlistViewPdf_DragDrop(object sender, DragEventArgs e)
+        {
+            if ((e.Data != null) && e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                if (e.Data.GetData(DataFormats.FileDrop) is string[] files)
+                {
+                    await LoadPdfAsync(files.AsEnumerable());
+                }
+            }
+        }
     }
 }
