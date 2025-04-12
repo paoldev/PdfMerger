@@ -128,7 +128,7 @@ namespace PdfMerger
         {
             UseWaitCursor = true;
 
-            List<Image> pages = sourcePages.ToList();
+            List<Image> pages = [.. sourcePages];
 
             progressBarPages.Maximum = pages.Count;
             void ReportProgress(int progress)
@@ -506,17 +506,17 @@ namespace PdfMerger
             if ((comboBoxPageFilter.SelectedIndex == 0) || ((comboBoxPageFilter.SelectedIndex == 3) && string.IsNullOrWhiteSpace(textBoxFilter.Text)))
             {
                 //All pages
-                pageIndices = Enumerable.Range(minPage, maxPage - minPage + 1).ToList();
+                pageIndices = [.. Enumerable.Range(minPage, maxPage - minPage + 1)];
             }
             else if (comboBoxPageFilter.SelectedIndex == 1)
             {
                 //Even pages
-                pageIndices = Enumerable.Range(minPage, maxPage - minPage + 1).Where(x => ((x % 2) == 0)).ToList();
+                pageIndices = [.. Enumerable.Range(minPage, maxPage - minPage + 1).Where(x => ((x % 2) == 0))];
             }
             else if (comboBoxPageFilter.SelectedIndex == 2)
             {
                 //Odd pages
-                pageIndices = Enumerable.Range(minPage, maxPage - minPage + 1).Where(x => ((x % 2) != 0)).ToList();
+                pageIndices = [.. Enumerable.Range(minPage, maxPage - minPage + 1).Where(x => ((x % 2) != 0))];
             }
             else if (comboBoxPageFilter.SelectedIndex != 3)
             {
@@ -578,7 +578,7 @@ namespace PdfMerger
                                         return [];
                                     }
 
-                                    pageIndices.AddRange(Enumerable.Range(first, second - first + 1).ToList());
+                                    pageIndices.AddRange([.. Enumerable.Range(first, second - first + 1)]);
                                 }
                                 else
                                 {
@@ -588,7 +588,7 @@ namespace PdfMerger
                                         return [];
                                     }
 
-                                    pageIndices.AddRange(Enumerable.Range(second, first - second + 1).Reverse().ToList());
+                                    pageIndices.AddRange([.. Enumerable.Range(second, first - second + 1).Reverse()]);
                                 }
                             }
                             else
@@ -597,7 +597,6 @@ namespace PdfMerger
                                 return [];
                             }
                         }
-
                     }
                 }
             }
