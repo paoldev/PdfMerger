@@ -166,9 +166,9 @@
             checkBox1.Location = new Point(104, 248);
             checkBox1.Margin = new Padding(2);
             checkBox1.Name = "checkBox1";
-            checkBox1.Size = new Size(74, 19);
+            checkBox1.Size = new Size(107, 19);
             checkBox1.TabIndex = 4;
-            checkBox1.Text = "Open file";
+            checkBox1.Text = "Open saved file";
             checkBox1.UseVisualStyleBackColor = true;
             // 
             // saveFileDialog1
