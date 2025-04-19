@@ -135,6 +135,18 @@ namespace PdfMerger
 
         private async Task MergePdfAsync(IEnumerable<Image> sourcePages, string outputFile, bool onePdfPerPage)
         {
+            if (string.IsNullOrEmpty(Path.GetFileNameWithoutExtension(outputFile)))
+            {
+                MessageBox.Show($"Empty file name.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (!sourcePages.Any())
+            {
+                MessageBox.Show($"Can't save an empty file. At least one page has to be selected.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             UseWaitCursor = true;
 
             List<Image> pages = [.. sourcePages];
@@ -174,7 +186,7 @@ namespace PdfMerger
 
                             pageCount++;
                         }
-                        MessageBox.Show($"Files successfully saved in {fileDir}.", string.Empty, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show($"Files successfully saved in {fileDir}.", Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                         if (checkBox1.Checked)
                         {
                             System.Diagnostics.Process.Start("explorer.exe", fileDir);
@@ -185,7 +197,7 @@ namespace PdfMerger
                         // Save all pages into one file
                         await PdfFile.CreateFileAsync(outputFile, pages.AsEnumerable(), new Progress<int>(ReportProgress), cts.Token);
 
-                        MessageBox.Show($"File {outputFile} successfully saved.", string.Empty, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show($"File {outputFile} successfully saved.", Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                         if (checkBox1.Checked)
                         {
                             System.Diagnostics.Process.Start("explorer.exe", outputFile);
@@ -220,7 +232,7 @@ namespace PdfMerger
                                 pageCount++;
                             }
                         }, cts.Token);
-                        MessageBox.Show($"Files successfully saved in {fileDir}.", string.Empty, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show($"Files successfully saved in {fileDir}.", Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                         if (checkBox1.Checked)
                         {
                             System.Diagnostics.Process.Start("explorer.exe", fileDir);
@@ -228,7 +240,7 @@ namespace PdfMerger
                     }
                     else
                     {
-                        MessageBox.Show($"Invalid file extension {extension}.", string.Empty, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show($"Invalid file extension {extension}.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
             }
@@ -343,7 +355,7 @@ namespace PdfMerger
             if (listViewPdf.SelectedItems.Count > 0)
             {
                 //Remove some Pdfs from listViewPdf
-                if (MessageBox.Show("Remove selected files?", string.Empty, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                if (MessageBox.Show("Remove selected files?", Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
                     var selectedItems = listViewPdf.SelectedItems.Cast<ListViewItem>();
                     foreach (var item in selectedItems)
@@ -366,7 +378,7 @@ namespace PdfMerger
             if (pdfFiles.Count > 0)
             {
                 //Remove all Pdfs and start a new project
-                if (MessageBox.Show("Clear the whole list?", string.Empty, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                if (MessageBox.Show("Clear the whole list?", Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
                     pdfFiles.Clear();
 
