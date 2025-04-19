@@ -126,7 +126,7 @@ namespace PdfMerger
                 g.Clear(Color.Transparent);
                 g.DrawImage(image, 0, 0, image.Width, image.Height);
             }
-            return bmp as Image;
+            return bmp;
         }
 
         //Image constructor used to center an image into a specific bounding box.
@@ -148,7 +148,7 @@ namespace PdfMerger
 
                 g.DrawImage(image, destRect);
             }
-            return bmp as Image;
+            return bmp;
         }
     }
 }

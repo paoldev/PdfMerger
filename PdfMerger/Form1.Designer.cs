@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            ColumnHeader columnHeader1;
-            ColumnHeader columnHeader2;
-            ColumnHeader columnHeader3;
+            columnHeader1 = new ColumnHeader();
+            columnHeader2 = new ColumnHeader();
+            columnHeader3 = new ColumnHeader();
             menuStrip1 = new MenuStrip();
             fileToolStripMenuItem = new ToolStripMenuItem();
             aboutToolStripMenuItem = new ToolStripMenuItem();
@@ -57,9 +57,6 @@
             checkBoxInvertPageOrder = new CheckBox();
             textBoxFilter = new TextBox();
             comboBoxPageFilter = new ComboBox();
-            columnHeader1 = new ColumnHeader();
-            columnHeader2 = new ColumnHeader();
-            columnHeader3 = new ColumnHeader();
             menuStrip1.SuspendLayout();
             groupBoxPreview.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
@@ -432,5 +429,8 @@
         private ComboBox comboBoxPageFilter;
         private CheckBox checkBoxInvertPageOrder;
         private Button buttonSave;
+        private ColumnHeader columnHeader1;
+        private ColumnHeader columnHeader2;
+        private ColumnHeader columnHeader3;
     }
 }
