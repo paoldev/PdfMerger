@@ -165,20 +165,19 @@ namespace PdfMerger
                 cts = new CancellationTokenSource();
 
                 var extension = Path.GetExtension(outputFile).ToLowerInvariant();
+                var fileDir = Path.GetDirectoryName(outputFile) ?? Environment.CurrentDirectory;
+                var fileName = Path.GetFileNameWithoutExtension(outputFile);
+                var oneFilePerPageFullFilenameFormat = Path.Join(fileDir, $"{fileName}_pag_{{0}}{extension}");
                 if (extension.Equals(".pdf") || extension.Equals(".xps") || extension.Equals(".oxps"))
                 {
                     if (onePdfPerPage)
                     {
                         // Save each page as a separated pdf
-                        var fileDir = Path.GetDirectoryName(outputFile) ?? Environment.CurrentDirectory;
-                        var fileName = Path.GetFileNameWithoutExtension(outputFile);
-                        var filePattern = Path.Combine(fileDir, fileName);
-
                         IProgress<int> progress = new Progress<int>(ReportProgress);
                         int pageCount = 1;
                         foreach (var page in pages)
                         {
-                            var fullFileName = $"{filePattern}_pag_{pageCount}{extension}";
+                            var fullFileName = string.Format(oneFilePerPageFullFilenameFormat, pageCount);
                             await PdfFile.CreateFileAsync(fullFileName, [page]);
 
                             progress?.Report(pageCount);
@@ -210,17 +209,13 @@ namespace PdfMerger
                     var encoder = Helpers.FindImageEncoder(extension);
                     if (encoder != null)
                     {
-                        var fileDir = Path.GetDirectoryName(outputFile) ?? Environment.CurrentDirectory;
-                        var fileName = Path.GetFileNameWithoutExtension(outputFile);
-                        var filePattern = Path.Combine(fileDir, fileName);
-
                         IProgress<int> progress = new Progress<int>(ReportProgress);
                         await Task.Run(() =>
                         {
                             int pageCount = 1;
                             foreach (var page in pages)
                             {
-                                var fullFileName = $"{filePattern}_pag_{pageCount}{extension}";
+                                var fullFileName = string.Format(oneFilePerPageFullFilenameFormat, pageCount);
                                 using (var imageStream = File.OpenWrite(fullFileName))
                                 {
                                     page.Save(imageStream, encoder, null);
