@@ -57,6 +57,7 @@
             checkBoxInvertPageOrder = new CheckBox();
             textBoxFilter = new TextBox();
             comboBoxPageFilter = new ComboBox();
+            checkBoxSaveSelected = new CheckBox();
             menuStrip1.SuspendLayout();
             groupBoxPreview.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
@@ -167,7 +168,7 @@
             checkBox1.AutoSize = true;
             checkBox1.Checked = true;
             checkBox1.CheckState = CheckState.Checked;
-            checkBox1.Location = new Point(104, 248);
+            checkBox1.Location = new Point(268, 247);
             checkBox1.Margin = new Padding(2);
             checkBox1.Name = "checkBox1";
             checkBox1.Size = new Size(107, 19);
@@ -225,7 +226,7 @@
             // 
             // buttonCancel
             // 
-            buttonCancel.Location = new Point(265, 242);
+            buttonCancel.Location = new Point(415, 241);
             buttonCancel.Margin = new Padding(2);
             buttonCancel.Name = "buttonCancel";
             buttonCancel.Size = new Size(78, 30);
@@ -363,11 +364,22 @@
             comboBoxPageFilter.TabIndex = 0;
             comboBoxPageFilter.SelectedIndexChanged += OncomboBoxFilter_SelectedIndexChanged;
             // 
+            // checkBoxSaveSelected
+            // 
+            checkBoxSaveSelected.AutoSize = true;
+            checkBoxSaveSelected.Location = new Point(95, 247);
+            checkBoxSaveSelected.Name = "checkBoxSaveSelected";
+            checkBoxSaveSelected.Size = new Size(157, 19);
+            checkBoxSaveSelected.TabIndex = 16;
+            checkBoxSaveSelected.Text = "Only save selected pages";
+            checkBoxSaveSelected.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(984, 637);
+            Controls.Add(checkBoxSaveSelected);
             Controls.Add(groupBox2);
             Controls.Add(buttonClear);
             Controls.Add(groupBoxPreview);
@@ -432,5 +444,6 @@
         private ColumnHeader columnHeader1;
         private ColumnHeader columnHeader2;
         private ColumnHeader columnHeader3;
+        private CheckBox checkBoxSaveSelected;
     }
 }

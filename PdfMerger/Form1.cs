@@ -53,6 +53,19 @@ namespace PdfMerger
 
         private async void OnbuttonSave_Click(object sender, EventArgs e)
         {
+            var sourcePages = (checkBoxSaveSelected.Checked ?
+                listViewPreview.SelectedItems.Cast<ListViewItem>() :
+                listViewPreview.Items.Cast<ListViewItem>()).Select(item => (Image)item.Tag!);
+
+            if (!sourcePages.Any())
+            {
+                string errorMsg = checkBoxSaveSelected.Checked ?
+                    "Can't save an empty file. At least one page has to be selected." :
+                    "Can't save an empty file.";
+                MessageBox.Show(errorMsg, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             //get supported image encoders extensions
             var saveImageExtensions = Helpers.ImageEncodersExtensions;
 
@@ -61,7 +74,6 @@ namespace PdfMerger
             if (saveFileDialog1.ShowDialog(this) == DialogResult.OK)
             {
                 var onePdfPerPage = saveFileDialog1.FilterIndex == 2;
-                var sourcePages = listViewPreview.Items.Cast<ListViewItem>().Select(item => (Image)item.Tag!);
                 await MergePdfAsync(sourcePages, saveFileDialog1.FileName, onePdfPerPage);
             }
         }
