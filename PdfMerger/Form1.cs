@@ -74,6 +74,17 @@ namespace PdfMerger
             if (saveFileDialog1.ShowDialog(this) == DialogResult.OK)
             {
                 var onePdfPerPage = saveFileDialog1.FilterIndex == 2;
+                var extension = Path.GetExtension(saveFileDialog1.FileName).ToLowerInvariant();
+                var isPdfOrXps = extension.Equals(".pdf") || extension.Equals(".xps") || extension.Equals(".oxps");
+                if (isPdfOrXps && !onePdfPerPage)
+                {
+                    if (pdfFiles.Any(pdf => pdf.FileName.Equals(saveFileDialog1.FileName, StringComparison.OrdinalIgnoreCase)))
+                    {
+                        MessageBox.Show($"Can't overwrite input file {saveFileDialog1.FileName}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                }
+
                 await MergePdfAsync(sourcePages, saveFileDialog1.FileName, onePdfPerPage);
             }
         }
