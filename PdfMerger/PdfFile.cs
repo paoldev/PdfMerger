@@ -82,7 +82,7 @@ namespace PdfMerger
                         int currentPage = 0;
                         printDocument.PrinterSettings = printerSettings;
                         printDocument.DocumentName = Path.GetFileNameWithoutExtension(fileName);
-                        printDocument.PrintPage += (object sender, PrintPageEventArgs e) =>
+                        printDocument.PrintPage += (sender, e) =>
                         {
                             if (currentPage < pages.Count())
                             {
@@ -100,7 +100,7 @@ namespace PdfMerger
                             e.Cancel = ct.IsCancellationRequested;
                             progress?.Report(currentPage);
                         };
-                        printDocument.QueryPageSettings += (object sender, QueryPageSettingsEventArgs e) =>
+                        printDocument.QueryPageSettings += (sender, e) =>
                         {
                             if (currentPage < pages.Count())
                             {
@@ -109,8 +109,8 @@ namespace PdfMerger
                                 e.PageSettings.Landscape = (pageImage.Width > pageImage.Height);
                             }
                         };
-                        printDocument.BeginPrint += (object sender, PrintEventArgs e) => { currentPage = 0; };
-                        printDocument.EndPrint += (object sender, PrintEventArgs e) => { };
+                        printDocument.BeginPrint += (sender, e) => { currentPage = 0; };
+                        printDocument.EndPrint += (sender, e) => { };
                         printDocument.Print();
                     }
 

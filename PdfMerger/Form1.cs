@@ -292,7 +292,7 @@ namespace PdfMerger
             if (selectedItems.Count > 0)
             {
                 //Order by ascending item index
-                selectedItems.Sort((ListViewItem x, ListViewItem y) => { return listViewPdf.Items.IndexOf(x).CompareTo(listViewPdf.Items.IndexOf(y)); });
+                selectedItems.Sort((x, y) => { return listViewPdf.Items.IndexOf(x).CompareTo(listViewPdf.Items.IndexOf(y)); });
 
                 //Compute new indices
                 var positions = selectedItems.Select(x => listViewPdf.Items.IndexOf(x)).ToList();
@@ -333,7 +333,7 @@ namespace PdfMerger
             if (selectedItems.Count > 0)
             {
                 //Order by descending item index
-                selectedItems.Sort((ListViewItem x, ListViewItem y) => { return listViewPdf.Items.IndexOf(y).CompareTo(listViewPdf.Items.IndexOf(x)); });
+                selectedItems.Sort((x, y) => { return listViewPdf.Items.IndexOf(y).CompareTo(listViewPdf.Items.IndexOf(x)); });
 
                 //Compute new indices
                 int maxIndex = listViewPdf.Items.Count - 1;
@@ -667,7 +667,7 @@ namespace PdfMerger
 
         private static Task ClearUIAync(Action action)
         {
-            IProgress<int> clearUI = new Progress<int>((int progress) =>
+            IProgress<int> clearUI = new Progress<int>(progress =>
             {
                 action();
             });
