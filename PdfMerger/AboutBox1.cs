@@ -1,7 +1,7 @@
 ﻿//
 // PdfMerger
 //
-// Copyright (c) 2023-2025 paoldev
+// Copyright (c) 2023-2026 paoldev
 //
 // Licensed under the MIT license.
 // SPDX-License-Identifier: MIT

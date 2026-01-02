@@ -3,6 +3,8 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-red.svg)](LICENSE.txt)
 [![Build and Create Release](https://github.com/paoldev/PdfMerger/actions/workflows/dotnet_create_release.yml/badge.svg)](https://github.com/paoldev/PdfMerger/releases)
 
+PdfMerger (c) 2023-2026 paoldev  
+  
 Merge two or more PDF files into one PDF file.
   
 Note: the resulting file is generated through rasterization, so its size is, in general, greater than the sum of the original files' sizes.
